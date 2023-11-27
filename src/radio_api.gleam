@@ -1,7 +1,7 @@
 import gleam/hackney
-import mist.{Connection, ResponseData}
-import gleam/http/request.{Request}
-import gleam/http/response.{Response}
+import mist.{type Connection, type ResponseData}
+import gleam/http/request.{type Request}
+import gleam/http/response.{type Response}
 import gleam/bit_builder
 import gleam/json
 import gleam/io
@@ -32,21 +32,19 @@ pub fn get_song() -> Result(Song, hackney.Error) {
   // Send the HTTP request to the server
   use response <- result.try(
     request
+    |> request.set_cookie("Saw2023CyberMonday", "Y")
     |> request.set_cookie("SawOctober2023Splash", "Y")
     |> request.prepend_header("accept", "application/json")
     |> request.prepend_header("host", "www.christianrock.net")
-    |> request.prepend_header(
-      "user-agent",
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-    )
     |> request.prepend_header(
       "referer",
       "https://www.christianrock.net/player.php?site=CRDN",
     )
     |> request.prepend_header("X-Requested-With", "XMLHttpRequest")
-    |> request.set_cookie("SawOctober2023Splash", "Y")
     |> hackney.send,
   )
+
+  io.debug(response.body)
 
   song_from_json(response.body)
   |> result.map_error(fn(e) {
