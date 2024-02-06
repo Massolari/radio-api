@@ -2,7 +2,7 @@ import gleam/hackney
 import mist.{type Connection, type ResponseData}
 import gleam/http/request.{type Request}
 import gleam/http/response.{type Response}
-import gleam/bit_builder
+import gleam/bytes_builder
 import gleam/json
 import gleam/io
 import gleam/result
@@ -59,7 +59,7 @@ pub fn json_response(status: Int, body: json.Json) -> Response(ResponseData) {
   |> response.set_body(
     body
     |> json.to_string
-    |> bit_builder.from_string
+    |> bytes_builder.from_string
     |> mist.Bytes,
   )
   |> response.set_header("content-type", "application/json")
