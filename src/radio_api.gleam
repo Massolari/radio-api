@@ -35,6 +35,7 @@ pub fn get_song() -> Result(Song, hackney.Error) {
     |> request.set_cookie("Saw2023CyberMonday", "Y")
     |> request.set_cookie("SawOctober2023Splash", "Y")
     |> request.set_cookie("SawFundraiser2023_0", "Y")
+    |> request.set_cookie("SawFundraiser2023_2", "Y")
     |> request.prepend_header("accept", "application/json")
     |> request.prepend_header("host", "www.christianrock.net")
     |> request.prepend_header(
